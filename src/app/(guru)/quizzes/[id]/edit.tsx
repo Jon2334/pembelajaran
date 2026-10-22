@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useAuth } from '../../../../features/auth/AuthContext';
 import { QuizzesService } from '../../../../features/quizzes/quizzesService';
 import { QuizForm } from '../../../../features/quizzes/QuizForm';
 import { Header } from '../../../../components/Header';
@@ -10,6 +11,7 @@ import { Colors } from '../../../../constants/colors';
 
 export default function EditQuizScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { user } = useAuth();
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [loadingFetch, setLoadingFetch] = useState(true);
@@ -69,17 +71,18 @@ export default function EditQuizScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Header title="Edit Kuis & Butir Soal" showBack onBack={() => router.back()} />
-      <QuizForm
-        initialQuiz={quiz}
-        initialQuestions={questions}
-        onSubmit={handleUpdate}
-        onCancel={() => router.back()}
-        loading={saving}
-      />
-    </View>
-  );
+      <View style={styles.container}>
+        <Header title="Edit Kuis & Butir Soal" showBack onBack={() => router.back()} />
+        <QuizForm
+          initialQuiz={quiz}
+          initialQuestions={questions}
+          teacherId={quiz?.teacher_id || user?.id || 'guru-demo-001'}
+          onSubmit={handleUpdate}
+          onCancel={() => router.back()}
+          loading={saving}
+        />
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({

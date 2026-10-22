@@ -20,6 +20,7 @@ import { MaterialCategory } from '../../types/materials';
 interface QuizFormProps {
   initialQuiz?: Partial<Quiz>;
   initialQuestions?: QuizQuestion[];
+  teacherId: string;
   onSubmit: (quiz: Omit<Quiz, 'id' | 'created_at' | 'updated_at'>, questions: QuizQuestion[]) => Promise<void>;
   onCancel: () => void;
   loading?: boolean;
@@ -28,6 +29,7 @@ interface QuizFormProps {
 export const QuizForm: React.FC<QuizFormProps> = ({
   initialQuiz,
   initialQuestions = [],
+  teacherId,
   onSubmit,
   onCancel,
   loading = false,
@@ -187,19 +189,19 @@ export const QuizForm: React.FC<QuizFormProps> = ({
     }
 
     await onSubmit(
-      {
-        teacher_id: initialQuiz?.teacher_id || 'guru-demo-001',
-        title: title.trim(),
-        description: description.trim(),
-        category,
-        time_limit_minutes: parseInt(timeLimit, 10),
-        passing_grade: parseInt(passingGrade, 10),
-        randomize_questions: randomizeQuestions,
-        randomize_options: false,
-        status: isPublished ? 'published' : 'draft',
-      },
-      questions
-    );
+          {
+            teacher_id: teacherId,
+            title: title.trim(),
+            description: description.trim(),
+            category,
+            time_limit_minutes: parseInt(timeLimit, 10),
+            passing_grade: parseInt(passingGrade, 10),
+            randomize_questions: randomizeQuestions,
+            randomize_options: false,
+            status: isPublished ? 'published' : 'draft',
+          },
+          questions
+        );
   };
 
   return (

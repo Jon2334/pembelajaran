@@ -30,15 +30,16 @@ export default function NewMaterialScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Header title="Tambah Materi Baru" showBack onBack={() => router.back()} />
-      <MaterialForm
-        onSubmit={handleSubmit}
-        onCancel={() => router.back()}
-        loading={loading}
-      />
-    </View>
-  );
+      <View style={styles.container}>
+        <Header title="Tambah Materi Baru" showBack onBack={() => router.back()} />
+        <MaterialForm
+          teacherId={user?.id || 'guru-demo-001'}
+          onSubmit={handleSubmit}
+          onCancel={() => router.back()}
+          loading={loading}
+        />
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({

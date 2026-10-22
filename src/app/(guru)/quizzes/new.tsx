@@ -34,15 +34,16 @@ export default function NewQuizScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Header title="Buat Paket Kuis Baru" showBack onBack={() => router.back()} />
-      <QuizForm
-        onSubmit={handleSubmit}
-        onCancel={() => router.back()}
-        loading={loading}
-      />
-    </View>
-  );
+      <View style={styles.container}>
+        <Header title="Buat Paket Kuis Baru" showBack onBack={() => router.back()} />
+        <QuizForm
+          teacherId={user?.id || 'guru-demo-001'}
+          onSubmit={handleSubmit}
+          onCancel={() => router.back()}
+          loading={loading}
+        />
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({

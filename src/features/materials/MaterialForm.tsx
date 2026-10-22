@@ -16,6 +16,7 @@ import { LearningMaterial, MaterialCategory, DifficultyLevel } from '../../types
 
 interface MaterialFormProps {
   initialValues?: Partial<LearningMaterial>;
+  teacherId: string;
   onSubmit: (values: Omit<LearningMaterial, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
   onCancel: () => void;
   loading?: boolean;
@@ -25,6 +26,7 @@ const DIFFICULTIES: DifficultyLevel[] = ['Pemula', 'Menengah', 'Mahir'];
 
 export const MaterialForm: React.FC<MaterialFormProps> = ({
   initialValues,
+  teacherId,
   onSubmit,
   onCancel,
   loading = false,
@@ -62,18 +64,18 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     if (!validate()) return;
 
     await onSubmit({
-      teacher_id: initialValues?.teacher_id || 'guru-demo-001',
-      title: title.trim(),
-      slug: title.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-      category,
-      difficulty,
-      reading_time_minutes: parseInt(readingTime, 10) || 10,
-      description: description.trim(),
-      content: content.trim(),
-      cover_image_url: coverImageUrl.trim() || null,
-      status: isPublished ? 'published' : 'draft',
-      order_index: initialValues?.order_index || 1,
-    });
+          teacher_id: teacherId,
+          title: title.trim(),
+          slug: title.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          category,
+          difficulty,
+          reading_time_minutes: parseInt(readingTime, 10) || 10,
+          description: description.trim(),
+          content: content.trim(),
+          cover_image_url: coverImageUrl.trim() || null,
+          status: isPublished ? 'published' : 'draft',
+          order_index: initialValues?.order_index || 1,
+        });
   };
 
   return (

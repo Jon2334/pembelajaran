@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useAuth } from '../../../../features/auth/AuthContext';
 import { MaterialsService } from '../../../../features/materials/materialsService';
 import { MaterialForm } from '../../../../features/materials/MaterialForm';
 import { Header } from '../../../../components/Header';
@@ -10,6 +11,7 @@ import { Colors } from '../../../../constants/colors';
 
 export default function EditMaterialScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { user } = useAuth();
   const [material, setMaterial] = useState<LearningMaterial | null>(null);
   const [loadingFetch, setLoadingFetch] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -59,16 +61,17 @@ export default function EditMaterialScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Header title="Edit Materi Pembelajaran" showBack onBack={() => router.back()} />
-      <MaterialForm
-        initialValues={material}
-        onSubmit={handleUpdate}
-        onCancel={() => router.back()}
-        loading={saving}
-      />
-    </View>
-  );
+      <View style={styles.container}>
+        <Header title="Edit Materi Pembelajaran" showBack onBack={() => router.back()} />
+        <MaterialForm
+          initialValues={material}
+          teacherId={material?.teacher_id || user?.id || 'guru-demo-001'}
+          onSubmit={handleUpdate}
+          onCancel={() => router.back()}
+          loading={saving}
+        />
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
